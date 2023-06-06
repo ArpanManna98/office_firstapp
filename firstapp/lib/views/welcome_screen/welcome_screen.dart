@@ -12,3 +12,10 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
+
+// 
+https://flutterawesome.com/a-state-machine-for-mobx-management-that-can-be-used-in-almost-any-application-state/
+https://github.com/ismaelsousa/mobx/tree/master
+https://objectbox.io/crud-flutter-database/ 
+https://github.com/objectbox/objectbox-dart/tree/main/objectbox/example/flutter/objectbox_demo
+//

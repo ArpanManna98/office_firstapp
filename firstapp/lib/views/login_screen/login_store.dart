@@ -1,5 +1,4 @@
-import 'package:firstapp/const/const.dart';
-import 'package:firstapp/views/welcome_screen/welcome_screen.dart';
+
 import 'package:mobx/mobx.dart';
 part 'login_store.g.dart';
 
