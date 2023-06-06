@@ -1,5 +1,8 @@
 import "package:firstapp/const/const.dart";
+import 'package:firstapp/views/login_screen/login_store.dart';
+import 'package:firstapp/views/welcome_screen/welcome_screen.dart';
 import 'package:mobx/mobx.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,15 +12,43 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // @observable
+  // bool loading = false;
+  // bool isPageChange = false;
+  late LoginStore loginStore = LoginStore();
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+   late ReactionDisposer reactionDisposer;
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+     reaction((_) => loginStore.isPageChange, (bool isPageChange) =>   Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => WelcomeScreen()))
+    );
+
   }
+  //   @override
+  // void dispose() {
+  //   reactionDisposer();
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   super.dispose();
+  // }
+  //  @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+
+    //   reactionDisposer = reaction((_) => loginStore.isPageChange, (bool isPageChange) {
+       
+    //     Navigator.of(context).pushReplacement(
+    //         MaterialPageRoute(builder: (_) => WelcomeScreen()));
+      
+    // });
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,40 +57,63 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             Observer(builder: (_) {
-                        return TextField(
-                          enabled: !loginStore.loading,
-                          onChanged: loginStore.setEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                              suffixIcon: Icon(Icons.person),
-                              labelText: 'E-mail',
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)))),
-                        );
-                      }),
-                      SizedBox(
-                        height: 30,
-                      ),
-
-                      Observer(builder: (_) {
-                        return TextField(
-                          enabled: !loginStore.loading,
-                          onChanged: loginStore.setPassword,
-                          // obscureText: loginStore.showPassword,
-                          keyboardType: TextInputType.visiblePassword,
-                          autocorrect: false,
-                          controller: _passwordController,
-                          decoration: const InputDecoration(
-                              suffixIcon: Icon(Icons.password),
-                              labelText: 'Password',
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)))),
-                        );
-                      }),
+              return TextField(
+                // enabled: !loginStore.loading,
+                // onChanged: loginStore.setEmail,
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                controller: _emailController,
+                decoration: const InputDecoration(
+                    suffixIcon: Icon(Icons.person),
+                    labelText: 'E-mail',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+              );
+            }),
+            SizedBox(
+              height: 30,
+            ),
+            Observer(builder: (_) {
+              return TextField(
+                // enabled: !loginStore.loading,
+                // onChanged: loginStore.setPassword,
+                // obscureText: loginStore.showPassword,
+                keyboardType: TextInputType.visiblePassword,
+                autocorrect: false,
+                controller: _passwordController,
+                decoration: const InputDecoration(
+                    suffixIcon: Icon(Icons.password),
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+              );
+            }),
+            const Spacer(),
+            Observer(builder: (context) {
+             
+              return GestureDetector(
+                onTap: loginStore.login,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: loginStore.isFormValid ? Colors.blue : Colors.red,
+                  ),
+                  child: loginStore.loading
+                      ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.white),
+                        )
+                      : const Text('Login',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
+                ),
+              );
+            }),
           ],
         ),
       ),
