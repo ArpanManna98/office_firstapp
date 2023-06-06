@@ -33,6 +33,22 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  late final _$isPageChangeAtom =
+      Atom(name: '_LoginStoreBase.isPageChange', context: context);
+
+  @override
+  bool get isPageChange {
+    _$isPageChangeAtom.reportRead();
+    return super.isPageChange;
+  }
+
+  @override
+  set isPageChange(bool value) {
+    _$isPageChangeAtom.reportWrite(value, super.isPageChange, () {
+      super.isPageChange = value;
+    });
+  }
+
   late final _$emailAtom =
       Atom(name: '_LoginStoreBase.email', context: context);
 
@@ -121,6 +137,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   String toString() {
     return '''
 loading: ${loading},
+isPageChange: ${isPageChange},
 email: ${email},
 password: ${password},
 isLoggedIn: ${isLoggedIn},

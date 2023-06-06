@@ -1,9 +1,15 @@
+import 'package:firstapp/const/const.dart';
+import 'package:firstapp/views/welcome_screen/welcome_screen.dart';
 import 'package:mobx/mobx.dart';
 part 'login_store.g.dart';
+
 class LoginStore = _LoginStoreBase with _$LoginStore;
+
 abstract class _LoginStoreBase with Store {
   @observable
   bool loading = false;
+
+  @observable
   bool isPageChange = false;
 
   @action
@@ -11,10 +17,12 @@ abstract class _LoginStoreBase with Store {
     loading = true;
     Future.delayed(const Duration(seconds: 2));
     loading = false;
-    // isLoggedIn = true;
+    isLoggedIn = true;
     isPageChange = true;
+   
   }
-   @observable
+
+  @observable
   String email = "";
 
   @action
@@ -26,7 +34,7 @@ abstract class _LoginStoreBase with Store {
   @action
   void setPassword(String value) => password = value;
 
-   @computed
+  @computed
   bool get isFormValid => email.length > 6 && password.length > 6;
 
   @observable
