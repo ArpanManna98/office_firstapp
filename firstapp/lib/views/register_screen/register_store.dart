@@ -1,3 +1,6 @@
+import 'package:firstapp/const/const.dart';
+import 'package:firstapp/main.dart';
+import 'package:firstapp/models/model.dart';
 import 'package:mobx/mobx.dart';
 
 part 'register_store.g.dart';
@@ -5,20 +8,38 @@ part 'register_store.g.dart';
 class RegisterStore = _RegisterStoreBase with _$RegisterStore;
 
 abstract class _RegisterStoreBase with Store {
-
-   @observable
+  @observable
   bool isPageChange = false;
-   @observable
+  @observable
   bool loading = false;
-@action
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController passwordController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
+
+  String idGenerator() {
+    final now = DateTime.now();
+    return now.microsecondsSinceEpoch.toString();
+  }
+
+  @action
   void signup() {
     loading = true;
+    var email = emailController.text;
+    var password = passwordController.text;
+    var name = nameController.text;
     Future.delayed(const Duration(seconds: 2));
     loading = false;
     // isLoggedIn = true;
+    User user = User(
+        name: name, email: email, password: password, uid: idGenerator());
+    objectbox.box<User>().put(user);
+    // final ab = objectbox.box<User>().getAll();
+    
+List<User> tags = objectbox.box<User>().getAll();
+    print(tags);
     isPageChange = true;
-   
   }
+
   @observable
   String email = "";
 
@@ -30,13 +51,12 @@ abstract class _RegisterStoreBase with Store {
 
   @action
   void setPassword(String value) => password = value;
-@observable
+  @observable
   String name = "";
 
   @action
   void setName(String value) => name = value;
 
   @computed
-  bool get isFormValid => email.length > 6 && password.length > 6; 
-
+  bool get isFormValid => email.length > 6 && password.length > 6;
 }

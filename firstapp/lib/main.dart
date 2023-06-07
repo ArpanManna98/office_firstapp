@@ -1,7 +1,15 @@
+import 'package:firstapp/objectbox.g.dart';
 import 'package:firstapp/views/login_screen/loginscreen.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-void main() {
+late Store objectbox;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  objectbox = await openStore();
+
   runApp(const MyApp());
 }
 

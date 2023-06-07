@@ -39,12 +39,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Observer(builder: (_) {
               return TextField(
+                
                 // enabled: !loginStore.loading,
-                // onChanged: loginStore.setPassword,
+              
                 // obscureText: loginStore.showPassword,
                 keyboardType: TextInputType.name,
                 autocorrect: false,
-                controller: _nameController,
+                controller: registerStore.nameController,
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.person),
                     labelText: 'Name',
@@ -61,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // onChanged: loginStore.setEmail,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
-                controller: _emailController,
+                controller: registerStore.emailController,
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.email),
                     labelText: 'E-mail',
@@ -79,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // obscureText: loginStore.showPassword,
                 keyboardType: TextInputType.visiblePassword,
                 autocorrect: false,
-                controller: _passwordController,
+                controller: registerStore.passwordController,
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.password),
                     labelText: 'Password',
