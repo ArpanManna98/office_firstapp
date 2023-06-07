@@ -2,7 +2,6 @@ import 'package:firstapp/const/const.dart';
 import 'package:firstapp/main.dart';
 import 'package:firstapp/models/model.dart';
 import 'package:mobx/mobx.dart';
-
 part 'register_store.g.dart';
 
 class RegisterStore = _RegisterStoreBase with _$RegisterStore;
@@ -35,8 +34,8 @@ abstract class _RegisterStoreBase with Store {
     objectbox.box<User>().put(user);
     // final ab = objectbox.box<User>().getAll();
     
-List<User> tags = objectbox.box<User>().getAll();
-    print(tags);
+final alluser = objectbox.box<User>().getAll();
+    debugPrint("$alluser");
     isPageChange = true;
   }
 

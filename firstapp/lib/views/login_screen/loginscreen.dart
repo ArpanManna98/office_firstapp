@@ -15,14 +15,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late LoginStore loginStore = LoginStore();
   late RegisterStore registerStore = RegisterStore();
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  // late TextEditingController _emailController;
+  // late TextEditingController _passwordController;
 
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    // _emailController = TextEditingController();
+    // _passwordController = TextEditingController();
     reaction((_) => loginStore.isPageChange, (bool isPageChange) {
       if (isPageChange) {
         Navigator.of(context).pushReplacement(
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 // onChanged: loginStore.setEmail,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
-                controller: _emailController,
+                controller: loginStore.emailController,
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.person),
                     labelText: 'E-mail',
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 // obscureText: loginStore.showPassword,
                 keyboardType: TextInputType.visiblePassword,
                 autocorrect: false,
-                controller: _passwordController,
+                controller: loginStore.passwordController,
                 decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.password),
                     labelText: 'Password',

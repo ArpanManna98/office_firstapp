@@ -12,16 +12,16 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late RegisterStore registerStore = RegisterStore();
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-  late TextEditingController _nameController;
+  // late TextEditingController _emailController;
+  // late TextEditingController _passwordController;
+  // late TextEditingController _nameController;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    // _nameController = TextEditingController();
+    // _emailController = TextEditingController();
+    // _passwordController = TextEditingController();
     reaction((_) => registerStore.isPageChange, (bool isPageChange) {
       if (isPageChange) {
         Navigator.of(context).pushReplacement(
