@@ -1,62 +1,35 @@
-import "package:firstapp/const/const.dart";
-import 'package:firstapp/views/login_screen/login_store.dart';
-import 'package:firstapp/views/register_screen/register_screen.dart';
+import 'package:firstapp/const/const.dart';
 import 'package:firstapp/views/register_screen/register_store.dart';
 import 'package:firstapp/views/welcome_screen/welcome_screen.dart';
 import 'package:mobx/mobx.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  late LoginStore loginStore = LoginStore();
+class _RegisterScreenState extends State<RegisterScreen> {
   late RegisterStore registerStore = RegisterStore();
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _nameController;
 
   @override
   void initState() {
     super.initState();
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    reaction((_) => loginStore.isPageChange, (bool isPageChange) {
-      if (isPageChange) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => WelcomeScreen()));
-        loginStore.isPageChange = false;
-      }
-    });
-
     reaction((_) => registerStore.isPageChange, (bool isPageChange) {
       if (isPageChange) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => RegisterScreen()));
+            MaterialPageRoute(builder: (_) => WelcomeScreen()));
         registerStore.isPageChange = false;
       }
     });
   }
-  //   @override
-  // void dispose() {
-  //   reactionDisposer();
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
-  //  @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  //   reactionDisposer = reaction((_) => loginStore.isPageChange, (bool isPageChange) {
-
-  //     Navigator.of(context).pushReplacement(
-  //         MaterialPageRoute(builder: (_) => WelcomeScreen()));
-
-  // });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +40,30 @@ class _LoginPageState extends State<LoginPage> {
             Observer(builder: (_) {
               return TextField(
                 // enabled: !loginStore.loading,
+                // onChanged: loginStore.setPassword,
+                // obscureText: loginStore.showPassword,
+                keyboardType: TextInputType.name,
+                autocorrect: false,
+                controller: _nameController,
+                decoration: const InputDecoration(
+                    suffixIcon: Icon(Icons.person),
+                    labelText: 'Name',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+              );
+            }),
+            SizedBox(
+              height: 30,
+            ),
+            Observer(builder: (_) {
+              return TextField(
+                // enabled: !loginStore.loading,
                 // onChanged: loginStore.setEmail,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 controller: _emailController,
                 decoration: const InputDecoration(
-                    suffixIcon: Icon(Icons.person),
+                    suffixIcon: Icon(Icons.email),
                     labelText: 'E-mail',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
@@ -96,23 +87,20 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
               );
             }),
-            // const Spacer(),
-            SizedBox(
-              height: 50,
-            ),
+            Spacer(),
             Observer(builder: (context) {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: loginStore.isFormValid ? Colors.blue : Colors.red,
+                  color: registerStore.isFormValid ? Colors.blue : Colors.red,
                 ),
-                child: loginStore.loading
+                child: registerStore.loading
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation(Colors.white),
                       )
-                    : const Text('Login',
+                    : const Text('Register',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -120,13 +108,9 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.bold,
                         )),
               ).onTap(() {
-                loginStore.login();
+                registerStore.signup();
               });
             }),
-            50.heightBox,
-            "Register".text.bold.black.size(30).center.make().onTap(() {
-              registerStore.signup();
-            })
           ],
         ),
       ),
