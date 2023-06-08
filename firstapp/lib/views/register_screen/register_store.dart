@@ -29,13 +29,15 @@ abstract class _RegisterStoreBase with Store {
     Future.delayed(const Duration(seconds: 2));
     loading = false;
     // isLoggedIn = true;
-    User user = User(
-        name: name, email: email, password: password, uid: idGenerator());
+    User user =
+        User(name: name, email: email, password: password, uid: idGenerator());
     objectbox.box<User>().put(user);
     // final ab = objectbox.box<User>().getAll();
-    
-final alluser = objectbox.box<User>().getAll();
-    debugPrint("$alluser");
+
+    // final alluser = objectbox.box<User>().getAll();
+    // alluser.forEach((element) {
+    //   debugPrint("user ${element.name} ${element.email}");
+    // });
     isPageChange = true;
   }
 

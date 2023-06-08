@@ -1,4 +1,3 @@
-
 // import 'package:firstapp/objectbox.g.dart';
 // import 'package:firstapp/const/const.dart';
 // import 'package:flutter/material.dart';
@@ -9,15 +8,10 @@
 import 'package:firstapp/const/const.dart';
 import 'package:firstapp/main.dart';
 import 'package:firstapp/models/model.dart';
-// import 'package:firstapp/objectbox.g.dart';
+import 'package:firstapp/objectbox.g.dart' as ob;
 import 'package:mobx/mobx.dart';
 
-import 'package:objectbox/src/native/query/query.dart';
-
-
-
 part 'login_store.g.dart';
-
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
@@ -27,24 +21,42 @@ abstract class _LoginStoreBase with Store {
 
   @observable
   bool isPageChange = false;
-late TextEditingController emailController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
   @action
   void login() {
+    debugPrint("login Clicked");
     var email = emailController.text;
     var password = passwordController.text;
-    
-    Query<User> query =  objectbox.box<User>().query(
-    User.email.equals(email) &
-    User.password.equals(password) ).build();
-List<User> verifieduser = query.find();
 
-    loading = true;
-    Future.delayed(const Duration(seconds: 2));
-    loading = false;
-    isLoggedIn = true;
-    isPageChange = true;
-   
+    ob.Query<User> query = objectbox
+        .box<User>()
+        .query(
+            ob.User_.email.equals(email) & ob.User_.password.equals(password))
+        .build();
+    List<User> verifieduser = query.find();
+
+    debugPrint("verifieduser ${verifieduser.length}");
+    verifieduser.forEach((element) {
+      debugPrint("user ${element.email}  ${element.name}");
+    });
+    if (verifieduser.length == 0) {
+      loading = true;
+      Future.delayed(const Duration(seconds: 2));
+      loading = false;
+      isLoggedIn = false;
+      isPageChange = false;
+      debugPrint("Not a verified user");
+    } else {
+      loading = true;
+      Future.delayed(const Duration(seconds: 2));
+      loading = false;
+      isLoggedIn = true;
+      isPageChange = true;
+      verifieduser.forEach((element) {
+      debugPrint("Welcome  ${element.name} ${element.email} ");
+    });
+    }
   }
 
   @observable
