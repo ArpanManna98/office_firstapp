@@ -1,4 +1,4 @@
-
+import 'package:firstapp/locator.dart';
 import 'package:firstapp/objectbox.g.dart';
 import 'package:firstapp/views/login_screen/loginscreen.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,7 @@ late Store objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  objectbox = await openStore();
-
+  await setupLocator();
   runApp(const MyApp());
 }
 

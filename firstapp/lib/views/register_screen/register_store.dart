@@ -1,12 +1,16 @@
 import 'package:firstapp/const/const.dart';
+import 'package:firstapp/locator.dart';
 import 'package:firstapp/main.dart';
 import 'package:firstapp/models/model.dart';
+import 'package:firstapp/repository/register_repo.dart';
 import 'package:mobx/mobx.dart';
 part 'register_store.g.dart';
 
 class RegisterStore = _RegisterStoreBase with _$RegisterStore;
 
 abstract class _RegisterStoreBase with Store {
+
+  final registerRepo = dependency<RegisterRepo>();
   @observable
   bool isPageChange = false;
   @observable
@@ -15,10 +19,10 @@ abstract class _RegisterStoreBase with Store {
   late TextEditingController passwordController = TextEditingController();
   late TextEditingController nameController = TextEditingController();
 
-  String idGenerator() {
-    final now = DateTime.now();
-    return now.microsecondsSinceEpoch.toString();
-  }
+  // String idGenerator() {
+  //   final now = DateTime.now();
+  //   return now.microsecondsSinceEpoch.toString();
+  // }
 
   @action
   void signup() {
@@ -29,9 +33,10 @@ abstract class _RegisterStoreBase with Store {
     Future.delayed(const Duration(seconds: 2));
     loading = false;
     // isLoggedIn = true;
-    User user =
-        User(name: name, email: email, password: password, uid: idGenerator());
-    objectbox.box<User>().put(user);
+    // User user =
+    //     User(name: name, email: email, password: password, uid: idGenerator());
+    // objectbox.box<User>().put(user);
+    var query =  registerRepo.signup(name,email, password);
     // final ab = objectbox.box<User>().getAll();
 
     // final alluser = objectbox.box<User>().getAll();
