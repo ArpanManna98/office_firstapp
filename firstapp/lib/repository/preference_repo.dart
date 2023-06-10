@@ -1,4 +1,9 @@
-
 abstract class PreferenceRepo {
-  Future<Stream<dynamic>> getUser(Stream email);
+  Future<bool> setEmail(String email);
+  String? email();
+
+  setString(String s, String email) {}
+
+
+
 }

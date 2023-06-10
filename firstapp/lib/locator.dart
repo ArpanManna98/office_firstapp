@@ -15,5 +15,5 @@ Future<void> setupLocator() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   dependency.registerLazySingleton<LoginRepo>(() => LoginRepoImpl(obInstance));
   dependency.registerLazySingleton<RegisterRepo>(() => RegisterRepoImpl(obInstance));
-  dependency.registerLazySingleton<PreferenceRepo>(() => PreferenceRepoImpl());
+  dependency.registerLazySingleton<PreferenceRepo>(() => PreferenceRepoImpl(prefs));
 }

@@ -1,7 +1,7 @@
 import 'package:firstapp/const/const.dart';
 import 'package:firstapp/locator.dart';
-import 'package:firstapp/main.dart';
-import 'package:firstapp/models/model.dart';
+// import 'package:firstapp/main.dart';
+// import 'package:firstapp/models/model.dart';
 import 'package:firstapp/repository/register_repo.dart';
 import 'package:mobx/mobx.dart';
 part 'register_store.g.dart';
@@ -36,7 +36,7 @@ abstract class _RegisterStoreBase with Store {
     // User user =
     //     User(name: name, email: email, password: password, uid: idGenerator());
     // objectbox.box<User>().put(user);
-    var query =  registerRepo.signup(name,email, password);
+      registerRepo.signup(name,email, password);
     // final ab = objectbox.box<User>().getAll();
 
     // final alluser = objectbox.box<User>().getAll();

@@ -17,7 +17,7 @@ class RegisterRepoImpl extends RegisterRepo {
   Future<User> signup(String name, String email, String password) async {
     User user = await User(
         name: name, email: email, password: password, uid: idGenerator());
-    var data = dbs.box<User>().put(user);
+     dbs.box<User>().put(user);
     final alluser = dbs.box<User>().getAll();
     alluser.forEach((element) {
       debugPrint("user ${element.name} ${element.email}");

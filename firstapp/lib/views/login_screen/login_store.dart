@@ -7,10 +7,11 @@
 // import 'package:objectbox/objectbox.dart';
 import 'package:firstapp/const/const.dart';
 import 'package:firstapp/locator.dart';
-import 'package:firstapp/main.dart';
+// import 'package:firstapp/main.dart';
 import 'package:firstapp/models/model.dart';
-import 'package:firstapp/objectbox.g.dart' as ob;
+// import 'package:firstapp/objectbox.g.dart' as ob;
 import 'package:firstapp/repository/login_repo.dart';
+import 'package:firstapp/repository/preference_repo.dart';
 import 'package:mobx/mobx.dart';
 import 'package:collection/collection.dart';
 part 'login_store.g.dart';
@@ -24,7 +25,7 @@ abstract class _LoginStoreBase with Store {
   String? showToast;
 
   final loginRepo = dependency<LoginRepo>();
-
+final prefs = dependency<PreferenceRepo>();
   @observable
   bool isPageChange = false;
   late TextEditingController emailController = TextEditingController();
@@ -37,7 +38,7 @@ abstract class _LoginStoreBase with Store {
     var password = passwordController.text;
     var query = await loginRepo.login(email, password);
   // SharedPreferences pref =await SharedPreferences.getInstance();
-   globalSharedPrefs.setString("email", email);
+   prefs.setEmail( email);
     // ob.Query<User> query = objectbox
     //     .box<User>()
     //     .query(
