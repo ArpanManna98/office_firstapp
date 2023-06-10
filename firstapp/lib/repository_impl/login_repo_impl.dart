@@ -2,7 +2,7 @@ import 'package:firstapp/models/model.dart';
 import 'package:firstapp/repository/login_repo.dart';
 import 'package:firstapp/objectbox.g.dart' as ob;
 import '../objectbox.g.dart';
-import 'package:collection/collection.dart';
+
 
 class LoginRepoImpl extends LoginRepo {
   Store db;

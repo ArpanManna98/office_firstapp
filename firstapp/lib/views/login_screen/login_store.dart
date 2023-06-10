@@ -20,6 +20,8 @@ class LoginStore = _LoginStoreBase with _$LoginStore;
 abstract class _LoginStoreBase with Store {
   @observable
   bool loading = false;
+  @observable
+  String? showToast;
 
   final loginRepo = dependency<LoginRepo>();
 
@@ -34,7 +36,8 @@ abstract class _LoginStoreBase with Store {
     var email = emailController.text;
     var password = passwordController.text;
     var query = await loginRepo.login(email, password);
-
+  // SharedPreferences pref =await SharedPreferences.getInstance();
+   globalSharedPrefs.setString("email", email);
     // ob.Query<User> query = objectbox
     //     .box<User>()
     //     .query(
@@ -42,7 +45,7 @@ abstract class _LoginStoreBase with Store {
     //     .build();
     // List<User> verifieduser = query.find();
     List<User> result = query.find();
-    
+
     var verifieduser = result.firstWhereOrNull((element) =>
         element.email?.toLowerCase() == email.toLowerCase() &&
         element.password?.toLowerCase() == password.toLowerCase());
@@ -50,12 +53,13 @@ abstract class _LoginStoreBase with Store {
     // verifieduser!.forEach((element) {
     //   debugPrint("user ${element.email}  ${element.name}");
     // });
-    if (verifieduser == 0) {
+    if (verifieduser == null) {
       loading = true;
       Future.delayed(const Duration(seconds: 2));
       loading = false;
       isLoggedIn = false;
       isPageChange = false;
+      showToast = "Login Failed!!";
       debugPrint("Not a verified user");
     } else {
       loading = true;
@@ -63,6 +67,7 @@ abstract class _LoginStoreBase with Store {
       loading = false;
       isLoggedIn = true;
       isPageChange = true;
+      showToast = "Login Success!!";
       result.forEach((element) {
         debugPrint("Welcome  ${element.name} ${element.email} ");
       });

@@ -33,6 +33,22 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  late final _$showToastAtom =
+      Atom(name: '_LoginStoreBase.showToast', context: context);
+
+  @override
+  String? get showToast {
+    _$showToastAtom.reportRead();
+    return super.showToast;
+  }
+
+  @override
+  set showToast(String? value) {
+    _$showToastAtom.reportWrite(value, super.showToast, () {
+      super.showToast = value;
+    });
+  }
+
   late final _$isPageChangeAtom =
       Atom(name: '_LoginStoreBase.isPageChange', context: context);
 
@@ -134,6 +150,7 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   String toString() {
     return '''
 loading: ${loading},
+showToast: ${showToast},
 isPageChange: ${isPageChange},
 email: ${email},
 password: ${password},

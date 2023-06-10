@@ -19,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController bottompassController;
   late TextEditingController repasswordController;
 
+  late final List<ReactionDisposer> _disposers;
+
   //************Email validation function********** */
 
   String? validateEmail(String? value) {
@@ -56,21 +58,32 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     bottompassController = TextEditingController();
     repasswordController = TextEditingController();
-    reaction((_) => loginStore.isPageChange, (bool isPageChange) {
-      if (isPageChange) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => WelcomeScreen()));
-        loginStore.isPageChange = false;
-      }
-    });
 
-    reaction((_) => registerStore.isPageChange, (bool isPageChange) {
-      if (isPageChange) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => RegisterScreen()));
-        registerStore.isPageChange = false;
-      }
+    _disposers = [
+      reaction((_) => loginStore.isPageChange, (bool isPageChange) {
+        if (isPageChange) {
+          VxToast.show(context, msg: "Login Success");
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => WelcomeScreen()));
+          loginStore.isPageChange = false;
+          // loginStore.showToast = "Please Register First";
+        }
+      }),
+      reaction((_) => loginStore.showToast, (showToast) {
+        if (showToast != null) {
+          VxToast.show(context, msg: showToast);
+          // loginStore.showToast = "Please Register First";
+        }
+      })
+    ];
+  }
+
+  @override
+  void dispose() {
+    _disposers.forEach((element) {
+      element.call();
     });
+    super.dispose();
   }
 
   @override

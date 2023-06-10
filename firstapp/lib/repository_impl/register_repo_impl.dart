@@ -2,6 +2,8 @@ import 'package:firstapp/models/model.dart';
 import 'package:firstapp/repository/register_repo.dart';
 import 'package:objectbox/objectbox.dart';
 
+import '../const/const.dart';
+
 class RegisterRepoImpl extends RegisterRepo {
   Store dbs;
   RegisterRepoImpl(this.dbs);
@@ -16,6 +18,10 @@ class RegisterRepoImpl extends RegisterRepo {
     User user = await User(
         name: name, email: email, password: password, uid: idGenerator());
     var data = dbs.box<User>().put(user);
-    return data;
+    final alluser = dbs.box<User>().getAll();
+    alluser.forEach((element) {
+      debugPrint("user ${element.name} ${element.email}");
+    });
+    return user;
   }
 }
